@@ -6,6 +6,7 @@ import Footer from './components/Footer.jsx';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import DiagnosisPage from './pages/Diagnose';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
 
         <Routes>
           <Route path='/' element={<LandingPage/>}/>
+          <Route path='/diagnose' element={<DiagnosisPage/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/login' element={<Login/>}/>

@@ -19,7 +19,7 @@ const Contact = () => {
             Lakshmipuram, Mysore, Karnataka, 570004, India.</p>
             <p>Tel: 0821-9876543<br/>
             Email: Vocalise@gmail.com</p>
-            <p className='font-semibold text-lg text-gray-600'>CAREERS AT PRESCRIPTO</p>
+            <p className='font-semibold text-lg text-gray-600'>CAREERS AT VOCALISE</p>
             <p>Learn more about our teams and job openings.</p>
             <button className='border border-black px-8 py-4 text-sm hover:text-white hover:bg-black transition-all duration-300'>Explore Jobs</button>
           </div>
