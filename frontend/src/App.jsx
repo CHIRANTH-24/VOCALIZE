@@ -1,14 +1,26 @@
-import './App.css'
+import React from 'react'
+import LandingPage from './pages/LandingPage'
+import Navbar from './components/Navbar'
+import {Route, Routes} from 'react-router-dom';
+import Footer from './components/Footer.jsx';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Login from './pages/Login';
 
-function App() {
-  
-
+const App = () => {
   return (
-    <>
-      <h1 className="text-blue-600">
-        Hello World!
-     </h1>
-    </>
+    <div>
+        <Navbar/>
+
+        <Routes>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/about' element={<About/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          <Route path='/login' element={<Login/>}/>
+        </Routes>
+
+        <Footer/>
+    </div>
   )
 }
 
