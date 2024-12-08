@@ -14,7 +14,8 @@ const content = [
 			width={300}
 			height={300}
 			className="h-full w-full object-cover"
-			alt="linear board demo" />
+			alt="linear board demo" 
+      />
 		</div>
     ),
   },
@@ -29,7 +30,9 @@ const content = [
           width={300}
           height={300}
           className="h-full w-full object-cover"
-          alt="linear board demo" />
+          alt="linear board demo"
+  
+           />
       </div>
     ),
   },
@@ -44,7 +47,8 @@ const content = [
 			width={300}
 			height={300}
 			className="h-full w-full object-cover"
-			alt="linear board demo" />
+			alt="linear board demo"
+       />
 		</div>
     ),
   },
@@ -59,7 +63,8 @@ const content = [
 			width={300}
 			height={300}
 			className="h-full w-full object-cover"
-			alt="linear board demo" />
+			alt="linear board demo" 
+      />
 		</div>
     ),
   },
