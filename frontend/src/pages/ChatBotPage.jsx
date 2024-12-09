@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import AnimatedCircularProgressBar from "@/components/ui/animated-circular-progress-bar.jsx";
-import { updateProgress, updateScores } from "@/redux/userSlice";
+import { addActivityDate, updateProgress, updateScores } from "@/redux/userSlice";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import "../index.css";
 
@@ -62,6 +62,9 @@ const ChatbotPage = () => {
 
   const handleChallengeCompletion = () => {
     let { curWeek, curChallenge } = user;
+    // Add today's activity to activityDates
+    const today = new Date().toISOString(); // Current date in ISO format
+    dispatch(addActivityDate({ date: today, curWeek, curChallenge }));
 
     // Increment the challenge and week if necessary
     if (curChallenge === 7) {
