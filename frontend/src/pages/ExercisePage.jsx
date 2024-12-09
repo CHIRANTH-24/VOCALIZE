@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { assets } from "@/assets/assets";
@@ -10,9 +10,8 @@ const ExercisePage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  console.log(user)
-
   const [progress, setProgress] = useState(30);
+
 
   const handleWeekClick = (week) => {
     if (week > user.curWeek) {
