@@ -23,6 +23,7 @@ import Progress_Tracking from './Progress_Tracking.jpg';
 import Pronunciation_Analysis from './Pronunciation_Analysis.jpg';
 import red from './red.jpg';
 import rightArrow from './rightArrow.svg';
+import SpeakerIcon from './SpeakerIcon.svg';
 import twitter from './twitter.svg';
 import violet from './violet.jpg';
 import yellow from './yellow.webp';
@@ -65,6 +66,7 @@ export const assets = {
     Pronunciation_Analysis,
     red,
     rightArrow,
+    SpeakerIcon,
     twitter,
     violet,
     yellow,

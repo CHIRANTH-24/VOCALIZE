@@ -26,6 +26,8 @@ const initialState = {
   activityDates: [],
   scores: initializeScores(2, 2),
   selectedWeek: 3,
+  // date: new Date().toISOString(), // Store user's creation date as ISO string
+  date: "2024-11-23T13:19:13.186Z"
 };
 
 const userSlice = createSlice({
@@ -37,7 +39,8 @@ const userSlice = createSlice({
     },
     updateScores: (state, action) => {
       const { week, day, score } = action.payload;
-      state.scores[week][day] = score;
+      if (Number(score) > state.scores[week][day])
+        state.scores[week][day] = Number(score);
     },
     updateProgress: (state, action) => {
       const { curWeek, curChallenge } = action.payload;
@@ -45,7 +48,7 @@ const userSlice = createSlice({
       state.curChallenge = curChallenge;
     },
     updateSelectedWeek: (state, action) => {
-        state.selectedWeek = action.payload; // Update selectedWeek
+      state.selectedWeek = action.payload; // Update selectedWeek
     },
   },
 });

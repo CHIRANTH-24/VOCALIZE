@@ -22,7 +22,7 @@ const About = () => {
         <p>Why <span>Choose Us</span></p>
       </div>
 
-      <div className='flex flex-col md:flex-row mb-20'>
+      <div className='flex flex-col md:flex-row mb-20 max-w-[1200px] mx-auto'>
             <div className='border px-10 md:px-16 py-8 sm:py-16 flex flex-col gap-5 text-[15px] hover:bg-primary-blue hover:text-white transition-all duration-300'>
                 <b>EFFICIENCY:</b>
                 <p>Quick and accurate diagnosis tests to get you started on the right therapy path immediately.</p>

@@ -1,12 +1,13 @@
 import React from 'react'
 import { assets } from '../assets/assets.js'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useMatch } from 'react-router-dom'
 
 const Footer = () => {
 
     const location = useLocation();
+    const match = useMatch("/exercise/:id");
 
-    if (location.pathname != '/')
+    if (location.pathname != '/' && !match)
   return (
     <div className='w-[98%] border-t-2 border-t-black overflow-x-hidden mx-auto'>
         <div className='md:mx-10 relative z-10'>

@@ -72,7 +72,7 @@ const Navbar = () => {
                 isActive ? 'border-white border' : ''
               }`
             }
-            to="/lessons"
+            to="/exercise"
           >
             Lessons
           </NavLink>
@@ -147,7 +147,7 @@ const Navbar = () => {
               isActive ? 'border-black border' : ''
             }`
           }
-          to="/lessons"
+          to="/exercise"
         >
           Lessons
         </NavLink>

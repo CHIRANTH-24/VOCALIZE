@@ -96,3 +96,8 @@
     transform: translateY(15px);
   }
 }
+
+.chatArea{
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}

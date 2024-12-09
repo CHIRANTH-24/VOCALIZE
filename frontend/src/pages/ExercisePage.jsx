@@ -2,61 +2,63 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { assets } from "@/assets/assets";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSelectedWeek } from "@/redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const ExercisePage = () => {
-  const randomScore = () => Math.random() * 20.0 + 80.0; // Generates a random number between 80.0 and 100.0
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  console.log(user)
 
-  const initializeScores = (week, challenge) => {
-    const scores = Array.from({ length: 7 }, () => Array(7).fill(0.0));
-    for (let i = 0; i <= week; i++) {
-      for (let j = 0; j <= (i === week ? challenge - 2 : 6); j++) {
-        scores[i][j] = randomScore();
-      }
-    }
-    return scores;
-  };
-
-  const initialUserState = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    diagnosed: "No Disorders",
-    photo: "",
-    curWeek: 3,
-    curChallenge: 2,
-    badges: Array(7).fill(false),
-    userId: "",
-    activityDates: [],
-    scores: initializeScores(2, 2), // Generate random scores up to curWeek(3) and curChallenge(2)
-  };
-
-  const [user, setUser] = useState(initialUserState);
   const [progress, setProgress] = useState(30);
-  const [selectedWeek, setSelectedWeek] = useState(user.curWeek);
 
   const handleWeekClick = (week) => {
     if (week > user.curWeek) {
       toast.error("Complete the current week's challenge to unlock this!");
     } else {
-      setSelectedWeek(week);
+      dispatch(updateSelectedWeek(week));
     }
   };
 
+  const calculateUnlockDate = (creationDate, week, day) => {
+    const baseDate = new Date(creationDate);
+    baseDate.setDate(baseDate.getDate() + week * 7 + day);
+    return baseDate;
+  };
+
+  const isChallengeAvailable = (week, day) => {
+    const today = new Date();
+    const unlockDate = calculateUnlockDate(user.date, week, day);
+    return today >= unlockDate;
+  };
+
+  const isPreviousChallengeSolved = (week, day) => {
+    if (day > 0) day--;
+    else{
+      day = 6;
+      week == 0 ? 0 : --week
+    }
+    return user.scores[week][day] >= 80;
+  }
+
   const CompletedCard = ({ day }) => (
-    <div className="bg-[#17c964] cursor-pointer flex flex-col gap-2 text-white items-center px-4 py-2 rounded-xl min-h-[250px] justify-center">
+    <div
+      onClick={() => navigate(`/exercise/${day + 1}`)}
+      className="bg-[#17c964] cursor-pointer flex flex-col gap-2 text-white items-center px-4 py-2 rounded-xl min-h-[250px] justify-center"
+    >
       <div className="text-black bg-white w-[120px] h-[120px] p-3 inline-flex justify-center items-center rounded-full font-medium text-2xl">
         Day {day + 1}
       </div>
       <p className="font-semibold text-lg">Challenge Completed!</p>
       <p className="font-semibold text-lg mt-[-6px]">
-        Best Score: {user.scores[selectedWeek - 1][day].toFixed(2)}%
+        Best Score: {user.scores[user.selectedWeek - 1][day].toFixed(2)}%
       </p>
     </div>
   );
 
   const ChallengeCard = ({ day }) => {
-    // Map days to rainbow colors in assets
     const colors = [
       assets.violet,
       assets.indigo,
@@ -70,6 +72,16 @@ const ExercisePage = () => {
 
     return (
       <div
+        onClick={() => {
+          if (isChallengeAvailable(user.selectedWeek - 1, day)) {
+            if(!isPreviousChallengeSolved(user.selectedWeek - 1, day)){
+              toast.error("Please solve the previous challenges first!")
+            }
+            else navigate(`/exercise/${day + 1}`);
+          } else {
+              toast.error("Please wait for the challenge to unlock!");
+          }
+        }}
         className="flex flex-col gap-4 cursor-pointer text-white items-center px-4 py-2 rounded-xl min-h-[250px] justify-center"
         style={{
           backgroundImage: `url(${bgImage})`,
@@ -80,7 +92,9 @@ const ExercisePage = () => {
         <div className="text-black bg-white w-[120px] h-[120px] p-3 inline-flex justify-center items-center rounded-full font-medium text-2xl">
           Day {day + 1}
         </div>
-        <p className="font-semibold text-lg bg-white/60 text-black text-center rounded-xl min-h-[60px]">Your Challenge Awaits: Let's do this!</p>
+        <p className="font-semibold text-lg bg-white/60 text-black text-center rounded-xl min-h-[60px]">
+          Your Challenge Awaits: Let's do this!
+        </p>
       </div>
     );
   };
@@ -105,7 +119,7 @@ const ExercisePage = () => {
           <div
             key={i}
             className={`p-2 rounded-md cursor-pointer w-[30px] h-[30px] inline-flex items-center justify-center ${
-              i + 1 === selectedWeek
+              i + 1 === user.selectedWeek
                 ? "bg-primary-blue text-white"
                 : i + 1 < user.curWeek
                 ? "bg-green-500 text-white"
@@ -121,10 +135,10 @@ const ExercisePage = () => {
       {/* Grid */}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,240px))] gap-4 p-4 w-full mx-auto justify-center max-w-[1100px]">
         {Array.from({ length: 7 }).map((_, i) => {
-          // Determine whether to render CompletedCard or ChallengeCard
           const isCompleted =
-            selectedWeek - 1 < user.curWeek - 1 ||
-            (selectedWeek - 1 === user.curWeek - 1 &&
+            user.selectedWeek - 1 < user.curWeek - 1 || (user.selectedWeek - 1 === user.curWeek - 1 &&
+              i == user.curChallenge - 1 && user.scores[user.curWeek-1][user.curChallenge-1] >= 80) ||
+            (user.selectedWeek - 1 === user.curWeek - 1 &&
               i < user.curChallenge - 1);
 
           return isCompleted ? (
